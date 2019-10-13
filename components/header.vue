@@ -20,26 +20,6 @@
             <!-- 登录/用户信息 -->
             <el-row type="flex" align="middle">
 
-                <!-- 如果用户存在则展示用户信息，用户数据来自store -->
-                <el-dropdown v-if="false">
-                    <el-row type="flex" align="middle" class="el-dropdown-link">
-                        <nuxt-link to="#">
-                            <img src="http://157.122.54.189:9093/images/pic_sea.jpeg"/>
-                            用户名
-                        </nuxt-link>
-                        <i class="el-icon-caret-bottom el-icon--right"></i>
-                    </el-row>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
-                           <nuxt-link to="#">个人中心</nuxt-link>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <div @click="handleLogout">退出</div> 
-                        </el-dropdown-item>
-                        {{this.$store.state.user.username}}
-                    </el-dropdown-menu>
-                </el-dropdown>
-
                 <!-- 不存在用户信息展示登录注册链接 -->
                 <nuxt-link 
                 to="/user/login" 
@@ -57,7 +37,9 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item>
+                            <span @click="handleLogout">退出</span>
+                        </el-dropdown-item>
                     </el-dropdown-menu>
                     </el-dropdown>
             </el-row>
@@ -68,10 +50,13 @@
 export default {
     methods: {
         // 用户退出
-        handleLogout(){},
+        handleLogout(){
+            // 清空用户数据
+            this.$store.commit('user/setUserInfo',{})
+        },
     },
     mounted(){
-        console.log(this.$store.state.user.username)
+        
     }
 }
 </script>
