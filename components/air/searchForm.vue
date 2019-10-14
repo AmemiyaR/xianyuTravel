@@ -19,6 +19,7 @@
                 placeholder="请搜索出发城市"
                 @select="handleDepartSelect"
                 class="el-autocomplete"
+                v-model="form.departCity"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="到达城市">
@@ -27,6 +28,7 @@
                 placeholder="请搜索到达城市"
                 @select="handleDestSelect"
                 class="el-autocomplete"
+                v-model="form.destCity"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="出发时间">
@@ -34,6 +36,7 @@
                 <el-date-picker type="date" 
                 placeholder="请选择日期" 
                 style="width: 100%;"
+                v-model="form.departDate"
                 @change="handleDate">
                 </el-date-picker>
             </el-form-item>
@@ -61,6 +64,13 @@ export default {
                 {icon: "iconfont iconshuangxiang", name: "往返"}
             ],
             currentTab: 0,
+            form:{
+                departCity:'',//出发城市
+                departCode:'',//出发城市代码
+                destCity:'',//到达城市
+                destCode:'',//到达城市代码
+                departDate:''//日期字符串
+            }
         }
     },
     methods: {
@@ -71,6 +81,8 @@ export default {
         
         // 出发城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
+        // cb:回调函数，必须要调用，调用时候必须要传递一个数组的参数，
+        // 数组中的元素必须是一个对象，对象中必须要有value属性
         queryDepartSearch(value, cb){
             cb([
                 {value: 1},
@@ -101,7 +113,7 @@ export default {
 
         // 确认选择日期时触发
         handleDate(value){
-           
+            
         },
 
         // 触发和目标城市切换时触发
@@ -111,7 +123,7 @@ export default {
 
         // 提交表单是触发
         handleSubmit(){
-           
+            console.log(this.form)
         }
     },
     mounted() {
