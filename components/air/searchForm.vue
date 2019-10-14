@@ -20,6 +20,7 @@
                 @select="handleDepartSelect"
                 class="el-autocomplete"
                 v-model="form.departCity"
+                @blur="handleDepartBlur"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="到达城市">
@@ -70,7 +71,9 @@ export default {
                 destCity:'',//到达城市
                 destCode:'',//到达城市代码
                 departDate:''//日期字符串
-            }
+            },
+            // 存放newData的城市的数组
+            cities:[]
         }
     },
     methods: {
@@ -85,6 +88,7 @@ export default {
         // 数组中的元素必须是一个对象，对象中必须要有value属性
         queryDepartSearch(value, cb){
             if(!value) {
+
                 cb([])// 不显示下拉框
                 //只是return的话,是无法暂停它cb请求数据的,需要把cb设为空,这样他就没有东西好显示的
                 return
@@ -99,9 +103,22 @@ export default {
                     v.value = v.name.replace('市','')
                     return v
                 })
+                // 把newData赋值给data中cities
+                this.cities = newData
+                // 回调函数传参,把遍历添加value属性的数组返回使显示备选项
                 cb(newData)
             })
         },
+        handleDepartBlur(){
+            //如果输入框中没有值则退出该函数,如果不加这个会有怎么删都删不掉的bug
+            if(!this.form.departCity) return;
+            // 默认选中城市列表第一个
+            if(this.cities.length > 0){
+                this.form.departCity = this.cities[0].value
+                this.form.departCode = this.cities[0].sort
+            }
+        },
+
 
         // 目标城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
@@ -141,7 +158,7 @@ export default {
         }
     },
     mounted() {
-       
+        
     }
 }
 </script>
