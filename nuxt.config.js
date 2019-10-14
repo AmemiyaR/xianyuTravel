@@ -37,6 +37,7 @@ export default {
   */
   plugins: [
     '@/plugins/element-ui',
+    '@/plugins/axios',//使用的这个文档,相当于自己封装了一个插件
     {src:'@/plugins/localStorage.js',ssr:false}
   ],
 
