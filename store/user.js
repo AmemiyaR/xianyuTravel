@@ -13,4 +13,21 @@ export const mutations = {
 };
 
 // 存放的是异步修改state的方法
-export const actions = {};
+export const actions = {
+    // 封装登录的方法
+    // store是固定必须要有的参数，执行当前的store == 组件内this.$store
+    async login(store,data){
+        let res = await this.$axios({
+            url:'/accounts/login',
+            method:'POST',
+            data//data为调用方法传入的this.form
+        })
+
+        if(res.status===200){
+            store.commit('setUserInfo',res.data)
+            //这里是res.data是因为data是传过来的this.form,不包含名字和头像信息
+        }
+
+        return res
+    }
+};
