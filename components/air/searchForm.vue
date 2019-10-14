@@ -84,11 +84,23 @@ export default {
         // cb:回调函数，必须要调用，调用时候必须要传递一个数组的参数，
         // 数组中的元素必须是一个对象，对象中必须要有value属性
         queryDepartSearch(value, cb){
-            cb([
-                {value: 1},
-                {value: 2},
-                {value: 3},
-            ]);
+            if(!value) {
+                cb([])
+                //只是return的话,是无法暂停它cb请求数据的,需要把cb设为空,这样他就没有东西好显示的
+                return
+            }
+            this.$axios({
+                url:'airs/city?name='+value
+            }).then(res=>{
+                // data是后台返回的城市数组,没有value属性
+                const {data} = res.data
+                // 循环给每一项添加value属性
+                const newData  = data.map(v=>{
+                    v.value = v.name.replace('市','')
+                    return v
+                })
+                cb(newData)
+            })
         },
 
         // 目标城市输入框获得焦点时触发
