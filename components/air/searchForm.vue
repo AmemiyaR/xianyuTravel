@@ -85,7 +85,7 @@ export default {
         // 数组中的元素必须是一个对象，对象中必须要有value属性
         queryDepartSearch(value, cb){
             if(!value) {
-                cb([])
+                cb([])// 不显示下拉框
                 //只是return的话,是无法暂停它cb请求数据的,需要把cb设为空,这样他就没有东西好显示的
                 return
             }
@@ -112,10 +112,12 @@ export default {
                 {value: 3},
             ]);
         },
-       
+
         // 出发城市下拉选择时触发
         handleDepartSelect(item) {
-            
+            // 获取到表单需要的机票信息
+            this.form.departCity = item.value
+            this.form.departCode = item.sort
         },
 
         // 目标城市下拉选择时触发
