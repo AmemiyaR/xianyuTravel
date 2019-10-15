@@ -53,9 +53,9 @@ export default {
     data(){
         return {
              // 请求机票列表返回的总数据，包含了flights,info, options,total
-            flightsData:{},
-            // 从flights总列表数据中切割出来数组列表
-            dataList: [],
+            flightsData:{
+                flights:[]
+            },
             //当前的页数
             pageIndex:1,
             //当前的条数
@@ -71,20 +71,19 @@ export default {
         handleSizeChange(val){
             // 切换条数
             this.pageSize = val
-            // 重新回到第一页
-            this.dataList = this.flightsData.flights.slice(0,this.pageSize)
         },
         // 页数切换时候触发, val是当前的页数
         handleCurrentChange(val){
             this.pageIndex = val
-            // 修改机票列表
-            // 0, 5
-            // 5, 10
-            // 10, 15
-            this.dataList = this.flightsData.flights.slice(
+        }
+    },
+    computed:{
+        dataList(){
+            const arr = this.flightsData.flights.slice(
                 (this.pageIndex-1)*this.pageSize,
                 this.pageIndex*this.pageSize
             )
+            return arr
         }
     },
     mounted(){
@@ -96,8 +95,6 @@ export default {
         }).then(res=>{
             // 保存到机票的总数据
             this.flightsData = res.data
-            // console.log(this.flightsData);
-            this.dataList = this.flightsData.flights.slice(0,this.pageSize)
         })
     }
 }
