@@ -69,11 +69,18 @@ export default {
     methods: {
         // 分页条数切换时候触发, val是当前的条数
         handleSizeChange(val){
+            // 切换条数
             this.pageSize = val
+            // 重新回到第一页
+            this.dataList = this.flightsData.flights.slice(0,this.pageSize)
         },
         // 页数切换时候触发, val是当前的页数
         handleCurrentChange(val){
             this.pageIndex = val
+            // 修改机票列表
+            // 0, 5
+            // 5, 10
+            // 10, 15
             this.dataList = this.flightsData.flights.slice(
                 (this.pageIndex-1)*this.pageSize,
                 this.pageIndex*this.pageSize
