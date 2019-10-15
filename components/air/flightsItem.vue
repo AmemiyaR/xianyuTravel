@@ -86,7 +86,7 @@ export default {
             if(arrTime<depTime){
                 arrTime+=1440
             }
-            console.log(arrTime,depTime);
+            // console.log(arrTime,depTime);
             const hour = Math.floor((arrTime-depTime)/60)
             const min = (arrTime-depTime)%60
             return `${hour}时${min}分`
