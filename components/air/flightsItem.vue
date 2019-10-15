@@ -4,7 +4,7 @@
             <!-- 显示的机票信息 -->
             <el-row type="flex" align="middle" class="flight-info">
                 <el-col :span="6">
-                    <span>东航 </span> MU5316
+                    <span>{{item.airline_name}}</span> MU5316
                 </el-col>
                 <el-col :span="12">
                     <el-row type="flex" justify="space-between" class="flight-info-center">
@@ -31,7 +31,12 @@
             <el-row type="flex"  justify="space-between" align="middle">
                 <el-col :span="4">低价推荐</el-col>
                 <el-col :span="20">
-                    <el-row type="flex" justify="space-between" align="middle" class="flight-sell">
+                    <!-- 需要循环显示的座位信息 -->
+                    <el-row 
+                    type="flex" 
+                    justify="space-between" 
+                    align="middle" 
+                    class="flight-sell">
                         <el-col :span="16" class="flight-sell-left">
                             <span>经济舱</span> | 上海一诺千金航空服务有限公司
                         </el-col>
@@ -55,13 +60,14 @@
 
 <script>
 export default {
-
+    // props除了可以使用数组之外，还可以使用对象
     props: {
-        // 数据
-        data: {
-            type: Object,
-            // 默认是空数组
-            default: {}
+        // item是声明组件可以接受item属性
+        item:{
+            // 声明item的类型
+            type:Object,
+            // 如果用户不传，采取默认值!!!!
+            default:{}
         }
     }
 }

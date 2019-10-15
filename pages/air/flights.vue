@@ -10,16 +10,16 @@
                 </div>
                 
                 <!-- 航班头部布局 -->
-                <div>
-                    <FlightsListHead></FlightsListHead>
-                </div>
+                <!-- flightsData.flights是航班的列表 -->
+                <FlightsListHead></FlightsListHead>
                 
                 
                 <!-- 航班信息 -->
-                <div>
-                    <!-- 航班列表 -->
-                    <flightsItem></flightsItem>
-                </div>
+                <!-- 航班列表 -->
+                <flightsItem
+                v-for="(item,index) in flightsData.flights"
+                :key="index"
+                :item="item"></flightsItem>
             </div>
 
             <!-- 侧边栏 -->
@@ -38,12 +38,24 @@ import FlightsItem from '@/components/air/flightsItem'
 export default {
     data(){
         return {
-            
+             // 请求机票列表返回的总数据，包含了flights,info, options,total
+            flightsData:{}
         }
     },
     components:{
         FlightsListHead,
         FlightsItem
+    },
+    mounted(){
+        // 请求机票列表数据
+        this.$axios({
+            url:'airs',
+            // params是axios的get的参数
+            params:this.$route.query
+        }).then(res=>{
+            // 保存到机票的总数据
+            this.flightsData = res.data
+        })
     }
 }
 </script>
