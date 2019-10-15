@@ -20,7 +20,7 @@
                 @select="handleDepartSelect"
                 class="el-autocomplete"
                 v-model="form.departCity"
-                @blur="handleDepartBlur"
+                @blur="handleBlur(`depart`)"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="到达城市">
@@ -30,6 +30,7 @@
                 @select="handleDestSelect"
                 class="el-autocomplete"
                 v-model="form.destCity"
+                @blur="handleBlur(`dest`)"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="出发时间">
@@ -109,25 +110,29 @@ export default {
                 cb(newData)
             })
         },
-        handleDepartBlur(){
+        handleBlur(type){
+        // handleDepartBlur(){
             //如果输入框中没有值则退出该函数,如果不加这个会有怎么删都删不掉的bug
-            if(!this.form.departCity) return;
-            // 默认选中城市列表第一个
-            if(this.cities.length > 0){
-                this.form.departCity = this.cities[0].value
-                this.form.departCode = this.cities[0].sort
-            }
-        },
+            // if(!this.form.departCity) return;
+            // // 默认选中城市列表第一个
+            // if(this.cities.length > 0){
+            //     this.form.departCity = this.cities[0].value
+            //     this.form.departCode = this.cities[0].sort
+            // }
+
+            // 另一种写法
+            if(!this.form[type+'City']) return;
+            if(this.cities.length===0) return 
+            this.form[type+'City'] = this.cities[0].value
+            this.form[type+'Code'] = this.cities[0].sort
+        },  
 
 
         // 目标城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, cb){
-            cb([
-                {value: 1},
-                {value: 2},
-                {value: 3},
-            ]);
+            // value是到达城市value, cb也是到达的输入框回调函数
+            this.queryDepartSearch(value,cb)
         },
 
         // 出发城市下拉选择时触发
@@ -139,7 +144,9 @@ export default {
 
         // 目标城市下拉选择时触发
         handleDestSelect(item) {
-            
+            // 获取到表单需要的机票信息
+            this.form.destCity = item.value
+            this.form.destCode = item.sort
         },
 
         // 确认选择日期时触发
