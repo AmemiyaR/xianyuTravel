@@ -6,7 +6,7 @@
             <div class="flights-content">
                 <!-- 过滤条件 -->
                 <div>
-                    <FlightsFilters></FlightsFilters>
+                    <FlightsFilters :data="flightsData"></FlightsFilters>
                 </div>
                 
                 <!-- 航班头部布局 -->
@@ -60,7 +60,8 @@ export default {
         return {
              // 请求机票列表返回的总数据，包含了flights,info, options,total
             flightsData:{
-                flights:[]
+                flights:[],
+                info:[]
             },
             //当前的页数
             pageIndex:1,

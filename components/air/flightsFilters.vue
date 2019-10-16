@@ -4,9 +4,9 @@
             <!-- 左侧的信息 -->
             <el-col :span="8">
                 单程： 
-                广州 - 上海 
+                {{data.info.departCity}} - {{data.info.destCity}}
                 / 
-                2019-06-17
+                {{data.info.departDate}}
             </el-col>
             <!-- 过滤条件的列表 -->
             <!-- option里面的label是显示的界面上 -->
@@ -70,25 +70,33 @@ export default {
             airSize: "",        // 机型大小
         }
     },
+    props:{
+        // 组件可以接收总数据
+        data:{
+            type:Object,
+            default:[]
+        }
+    },
     methods: {
         // 选择机场时候触发
         handleAirport(value){
-            console.log(value)
+            console.log(this.data);
+            
         },
 
         // 选择出发时间时候触发
         handleFlightTimes(value){
-            console.log(value)
+            
         },
 
          // 选择航空公司时候触发
         handleCompany(value){
-            console.log(value)
+            
         },
 
          // 选择机型时候触发
         handleAirSize(value){
-           console.log(value)
+            
         },
         
         // 撤销条件时候触发
