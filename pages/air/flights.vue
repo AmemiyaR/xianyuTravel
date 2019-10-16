@@ -6,7 +6,7 @@
             <div class="flights-content">
                 <!-- 过滤条件 -->
                 <div>
-                    
+                    <FlightsFilters></FlightsFilters>
                 </div>
                 
                 <!-- 航班头部布局 -->
@@ -54,6 +54,7 @@
 import moment from "moment";
 import FlightsListHead from '@/components/air/flightsListHead'
 import FlightsItem from '@/components/air/flightsItem'
+import FlightsFilters from '@/components/air/flightsFilters'
 export default {
     data(){
         return {
@@ -71,7 +72,8 @@ export default {
     },
     components:{
         FlightsListHead,
-        FlightsItem
+        FlightsItem,
+        FlightsFilters
     },
     methods: {
         // 分页条数切换时候触发, val是当前的条数
