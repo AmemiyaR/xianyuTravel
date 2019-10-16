@@ -6,7 +6,7 @@
             <div class="flights-content">
                 <!-- 过滤条件 -->
                 <div>
-                    <FlightsFilters :data="flightsData" @setDataList=setDataList></FlightsFilters>
+                    <FlightsFilters :data="cacheFlightsData" @setDataList=setDataList></FlightsFilters>
                 </div>
                 
                 <!-- 航班头部布局 -->
@@ -64,6 +64,12 @@ export default {
                 info:[],
                 options:[]
             },
+            // 声明多一分总数据，`该总数据一旦赋值之后不会再被修改`，也就是第一次赋值完后的值等于flightsData
+            cacheFlightsData:{
+                flights:[],
+                info:[],
+                options:[]
+            },
             //当前的页数
             pageIndex:1,
             //当前的条数
@@ -110,6 +116,8 @@ export default {
         }).then(res=>{
             // 保存到机票的总数据
             this.flightsData = res.data
+            // 赋值多一分给缓存的对象,一旦赋值之后不能再被修改
+            this.cacheFlightsData = {...res.data}
             this.loading=false
         })
     }
