@@ -61,7 +61,8 @@ export default {
              // 请求机票列表返回的总数据，包含了flights,info, options,total
             flightsData:{
                 flights:[],
-                info:[]
+                info:[],
+                options:[]
             },
             //当前的页数
             pageIndex:1,
