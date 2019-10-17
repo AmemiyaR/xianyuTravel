@@ -44,6 +44,7 @@
             <!-- 侧边栏 -->
             <div class="aside">
                 <!-- 侧边栏组件 -->
+                <FlightsAside></FlightsAside>
             </div>
         </el-row>
     </section>
@@ -55,6 +56,7 @@ import moment from "moment";
 import FlightsListHead from '@/components/air/flightsListHead'
 import FlightsItem from '@/components/air/flightsItem'
 import FlightsFilters from '@/components/air/flightsFilters'
+import FlightsAside from '@/components/air/flightsAside'
 export default {
     data(){
         return {
@@ -83,7 +85,8 @@ export default {
     components:{
         FlightsListHead,
         FlightsItem,
-        FlightsFilters
+        FlightsFilters,
+        FlightsAside
     },
     methods: {
         // 分页条数切换时候触发, val是当前的条数
@@ -102,6 +105,24 @@ export default {
             // 修改分页的初始值
             this.total = arr.length
             this.pageIndex = 1
+        },
+        getList(){
+            // 请求机票列表数据
+            this.$axios({
+                url:'airs',
+                // params是axios的get的参数
+                params:this.$route.query
+            }).then(res=>{
+                // 保存到机票的总数据
+                this.flightsData = res.data
+                // 赋值多一分给缓存的对象,一旦赋值之后不能再被修改
+                this.cacheFlightsData = {...res.data}
+                // 请求完毕
+                this.loading=false
+                // 分页总数
+                this.total = this.flightsData.total
+                console.log(res.data);
+            })
         }
     },
     computed:{
@@ -114,25 +135,15 @@ export default {
         }
     },
     mounted(){
-        // 请求机票列表数据
-        this.$axios({
-            url:'airs',
-            // params是axios的get的参数
-            params:this.$route.query
-        }).then(res=>{
-            // 保存到机票的总数据
-            this.flightsData = res.data
-            // 赋值多一分给缓存的对象,一旦赋值之后不能再被修改
-            this.cacheFlightsData = {...res.data}
-            // 请求完毕
-            this.loading=false
-             // 分页总数
-            this.total = this.flightsData.total
-            console.log(res.data);
-        })
-        
+        this.getList()
+    },
+    watch:{
+        //监听路由
+        $route(){
+            //请求机票列表数据
+            this.getList()
+        }
     }
-    
 }
 </script>
 

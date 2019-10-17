@@ -195,7 +195,8 @@ export default {
                 path:'air/flights',
                 query:this.form
             })
-            this.$store.commit('/air/setHistory',this.form)
+            // 保存到store
+            this.$store.commit("air/setHistory", this.form);
         }
     },
     mounted() {
