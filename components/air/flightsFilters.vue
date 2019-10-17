@@ -28,7 +28,7 @@
                     v-for="(item,index) in data.options.flightTimes"
                     :key="index"
                     :label="`${item.from}:00 - ${item.to}:00`"
-                    :value="`${item},${item}`"
+                    :value="`${item.from},${item.to}`"
                     >
                     </el-option>
                 </el-select>
@@ -104,7 +104,16 @@ export default {
 
         // 选择出发时间时候触发
         handleFlightTimes(value){
-            
+            //  数组中第一项是开始时间，第二项是终止时间
+            const arr = value.split(',')// "6,12">[0,6]
+            const arr2 = this.data.flights.filter(v=>{
+                // 出发时间的小时
+                const start = v.dep_time.split(':')[0]//"09:00">[9,0]
+                // 比较航班出发时间是否在选中的时间段内
+                return start>= +arr[0] && start< +arr[1]
+            })
+            // 修改列表数据的
+            this.$emit('setDataList',arr2)
         },
 
          // 选择航空公司时候触发
