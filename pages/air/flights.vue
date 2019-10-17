@@ -121,7 +121,7 @@ export default {
                 this.loading=false
                 // 分页总数
                 this.total = this.flightsData.total
-                console.log(res.data);
+                // console.log(res.data);
             })
         }
     },
