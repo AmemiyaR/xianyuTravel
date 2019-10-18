@@ -64,6 +64,8 @@
 </template>
 
 <script>
+// 导入计算的方法
+import {computeTime} from "@/utils/utils"
 export default {
     data(){
         return {
@@ -83,16 +85,7 @@ export default {
     },
     computed:{
         rankTime(){
-            
-            let arrTime = (+this.item.arr_time.split(':')[0])*60+ +this.item.arr_time.split(':')[1]
-            let depTime = +this.item.dep_time.split(':')[0]*60+ +this.item.dep_time.split(':')[1]
-            if(arrTime<depTime){
-                arrTime+=1440
-            }
-            // console.log(arrTime,depTime);
-            const hour = Math.floor((arrTime-depTime)/60)
-            const min = (arrTime-depTime)%60
-            return `${hour}时${min}分`
+            return computeTime(this.item.arr_time,this.item.dep_time)
         }
     }
 }

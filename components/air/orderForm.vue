@@ -127,7 +127,6 @@ export default {
                 // 没有存在
                 this.insurances.push(id)
             }
-            console.log(this.insurances);
             
         },
         // 发送手机验证码
@@ -179,7 +178,10 @@ export default {
                 seat_xid
             }
         }).then(res=>{
+            // 保存详情到data
             this.detail = res.data
+            // 把detail返回给父组件
+            this.$emit('getDetail',this.detail)
         })
     }
 }
