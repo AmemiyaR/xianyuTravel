@@ -80,6 +80,7 @@
                 <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
             </div>
         </div>
+    <span v-show="false">{{allPrice}}</span>
     </div>
 </template>
 
@@ -167,6 +168,14 @@ export default {
             }).then(res=>{
                 console.log(res)
             })
+        }
+    },
+    computed:{
+        // 监听数据的变化
+        allPrice(){ 
+            // 把总价传递给父组件
+            this.$emit('getAllPrice',2)
+            return 2
         }
     },
     mounted(){
