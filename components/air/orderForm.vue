@@ -156,6 +156,14 @@ export default {
                 seat_xid:this.$route.query.seat_xid,
                 air:this.$route.query.id
             }
+            // 提交订单接口
+            this.$axios({
+                url:'/airorders',
+                method:'POST',
+                data
+            }).then(res=>{
+                console.log(res)
+            })
         }
     },
     mounted(){
