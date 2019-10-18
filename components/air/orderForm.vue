@@ -131,8 +131,17 @@ export default {
             
         },
         // 发送手机验证码
-        handleSendCaptcha(){
+        async handleSendCaptcha(){
+            if(!this.contactPhone){
+                this.$message.error('手机号不能为空')
+                return
+            }
             
+            // 调用actions的方法
+            const res = await this.$store.dispatch('user/sendCaptcha',this.contactPhone)
+            const {code} = res.data;
+            // 使用await的方式来调用
+            this.$message.success(`当前的手机验证码是:${code}`)
         },
 
         // 提交订单
@@ -147,7 +156,6 @@ export default {
                 seat_xid:this.$route.query.seat_xid,
                 air:this.$route.query.id
             }
-            console.log(data)
         }
     },
     mounted(){
