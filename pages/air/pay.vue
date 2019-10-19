@@ -26,6 +26,8 @@
 </template>
 
 <script>
+// 导入二维码生成插件
+import QRCode from "qrcode"
 export default {
     data(){
         return{
@@ -37,6 +39,7 @@ export default {
         // 订单id
         const {id} = this.$route.query
         // 等待本地的插件把本地存储的值赋给store之后再执行请求，才可以拿到token
+        // 请求订单详情
         setTimeout(()=>{
             // 请求订单的详情
             this.$axios({
@@ -46,6 +49,11 @@ export default {
                 }
             }).then(res=>{
                 this.order = res.data
+                // 获取canvas元素 canvas是画布的api
+                const canvas = document.querySelector('#qrcode-stage')
+                QRCode.toCanvas(canvas,this.order.payInfo.code_url,{
+                    width:200
+                })
             })
         },10)
         
