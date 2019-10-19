@@ -28,11 +28,13 @@
 <script>
 // 导入二维码生成插件
 import QRCode from "qrcode"
+import { async } from 'q'
 export default {
     data(){
         return{
             // 订单详情
-            order:{}
+            order:{},
+            timer:null
         }
     },
     mounted(){
@@ -40,21 +42,43 @@ export default {
         const {id} = this.$route.query
         // 等待本地的插件把本地存储的值赋给store之后再执行请求，才可以拿到token
         // 请求订单详情
-        setTimeout(()=>{
+        setTimeout(async()=>{
+            // 需要延时来获取本地的token
             // 请求订单的详情
-            this.$axios({
+            const res = await this.$axios({
                 url:'/airorders/'+id,
                 headers:{
                     Authorization:`Bearer ${this.$store.state.user.userInfo.token}`
                 }
-            }).then(res=>{
-                this.order = res.data
-                // 获取canvas元素 canvas是画布的api
-                const canvas = document.querySelector('#qrcode-stage')
-                QRCode.toCanvas(canvas,this.order.payInfo.code_url,{
-                    width:200
-                })
             })
+            this.order = res.data
+            // 获取canvas元素 canvas是画布的api
+            const canvas = document.querySelector('#qrcode-stage')
+            QRCode.toCanvas(canvas,this.order.payInfo.code_url,{
+                width:200
+            })
+            //查询付款状况
+            this.timer = setInterval(async()=>{
+                const res = await this.$axios({
+                    url:'/airorders/checkpay',
+                    method:'POST',
+                    headers:{
+                        Authorization:`Bearer ${this.$store.state.user.userInfo.token}`
+                    },
+                    data:{
+                        id:this.$route.query.id,
+                        nonce_str:this.order.price,
+                        out_trade_no:this.order.orderNo
+                    }
+                })
+                // 获取支付状态
+                const {statusTxt} = res.data
+                // 支付完成之后判断
+                if(statusTxt === '支付完成') {
+                    this.$message.success(statusTxt)
+                    clearInterval(this.timer)
+                }
+            },3000)
         },10)
         
     }
